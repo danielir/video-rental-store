@@ -8,9 +8,9 @@ import org.hibernate.SessionFactory;
 import divorra.core.Film;
 import io.dropwizard.hibernate.AbstractDAO;
 
-public class FilmDAO extends AbstractDAO<Film> {
+public class CustomerDAO extends AbstractDAO<Film> {
 
-	public FilmDAO(SessionFactory factory) {
+	public CustomerDAO(SessionFactory factory) {
 		super(factory);
 	}
 	

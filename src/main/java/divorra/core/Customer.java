@@ -12,14 +12,9 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "films")
-@NamedQueries({
-	@NamedQuery(
-			name="findAll", 
-			query="SELECT f from Film f")
-})
+@Table(name = "customers")
 
-public class Film {
+public class Customer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
@@ -27,11 +22,11 @@ public class Film {
 	@Column(name = "name", nullable = false)
 	private String name;
 	
-	public Film() {
+	public Customer() {
 		
 	}
 	
-	public Film(long id, String name) {
+	public Customer(long id, String name) {
 		this.id = id;
 		this.name = name;
 	}
@@ -57,11 +52,11 @@ public class Film {
 		if (this == o) {
             return true;
         }
-        if (!(o instanceof Film)) {
+        if (!(o instanceof Customer)) {
             return false;
         }
 
-        final Film that = (Film) o;
+        final Customer that = (Customer) o;
 
         return Objects.equals(this.id, that.id) &&
                 Objects.equals(this.name, that.name);
