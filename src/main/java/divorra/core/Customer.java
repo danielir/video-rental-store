@@ -13,6 +13,11 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "customers")
+@NamedQueries({
+	@NamedQuery(
+			name="customer.findAll", 
+			query="SELECT c from Customer c")
+})
 
 public class Customer {
 	@Id

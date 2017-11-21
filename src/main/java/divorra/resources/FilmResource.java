@@ -42,7 +42,7 @@ public class FilmResource {
 	@GET
 	@UnitOfWork
 	public Film getFilm(@PathParam("filmId") LongParam filmId) {
-		return filmDAO.findById(filmId.get()).orElseThrow(() -> new NotFoundException("No such user."));
+		return filmDAO.findById(filmId.get()).orElseThrow(() -> new NotFoundException("No such film."));
 	}
 	
 	

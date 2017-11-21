@@ -5,24 +5,24 @@ import java.util.Optional;
 
 import org.hibernate.SessionFactory;
 
-import divorra.core.Film;
+import divorra.core.Customer;
 import io.dropwizard.hibernate.AbstractDAO;
 
-public class CustomerDAO extends AbstractDAO<Film> {
+public class CustomerDAO extends AbstractDAO<Customer> {
 
 	public CustomerDAO(SessionFactory factory) {
 		super(factory);
 	}
 	
-	public Film create(Film film) {
-		return persist(film);
+	public Customer create(Customer customer) {
+		return persist(customer);
 	}
 	
-	public List<Film> findAll() {
-		return list(namedQuery("findAll"));
+	public List<Customer> findAll() {
+		return list(namedQuery("customer.findAll"));
 	}
 	
-	public Optional<Film> findById(Long id) {
+	public Optional<Customer> findById(Long id) {
         return Optional.ofNullable(get(id));
     }
 	

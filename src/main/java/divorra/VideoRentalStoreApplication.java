@@ -1,13 +1,15 @@
 package divorra;
 
-import divorra.core.Film;
+import divorra.db.CustomerDAO;
 import divorra.db.FilmDAO;
+import divorra.resources.CustomerResource;
 import divorra.resources.FilmResource;
 import io.dropwizard.Application;
 import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
 import io.dropwizard.configuration.SubstitutingSourceProvider;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
+import io.dropwizard.hibernate.ScanningHibernateBundle;
 import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
@@ -18,6 +20,7 @@ public class VideoRentalStoreApplication extends Application<VideoRentalStoreCon
         new VideoRentalStoreApplication().run(args);
     }
     
+    /*
     private final HibernateBundle<VideoRentalStoreConfiguration> hibernateBundle =
             new HibernateBundle<VideoRentalStoreConfiguration>(Film.class) {
                 @Override
@@ -25,6 +28,16 @@ public class VideoRentalStoreApplication extends Application<VideoRentalStoreCon
                     return configuration.getDataSourceFactory();
                 }
             };
+            */
+            
+            private final HibernateBundle<VideoRentalStoreConfiguration> hibernateBundle =
+                    new ScanningHibernateBundle<VideoRentalStoreConfiguration>("divorra.core") {
+                        @Override
+                        public DataSourceFactory getDataSourceFactory(VideoRentalStoreConfiguration configuration) {
+                            return configuration.getDataSourceFactory();
+                        }
+                    };
+
 
     @Override
     public String getName() {
@@ -54,8 +67,11 @@ public class VideoRentalStoreApplication extends Application<VideoRentalStoreCon
     @Override
     public void run(final VideoRentalStoreConfiguration configuration,
                     final Environment environment) {
-        final FilmDAO dao = new FilmDAO(hibernateBundle.getSessionFactory());
-        environment.jersey().register(new FilmResource(dao));
+    	final CustomerDAO customerDAO = new CustomerDAO(hibernateBundle.getSessionFactory());
+    	final FilmDAO filmDAO = new FilmDAO(hibernateBundle.getSessionFactory());        
+    	environment.jersey().register(new CustomerResource(customerDAO));
+    	environment.jersey().register(new FilmResource(filmDAO));
+        
     }
 
 }

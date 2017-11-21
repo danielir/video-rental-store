@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @NamedQueries({
 	@NamedQuery(
 			name="findAll", 
-			query="SELECT f from Film f")
+			query="SELECT f from Film f")	
 })
 
 public class Film {

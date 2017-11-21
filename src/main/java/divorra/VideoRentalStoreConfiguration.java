@@ -11,7 +11,7 @@ import io.dropwizard.db.DataSourceFactory;
 public class VideoRentalStoreConfiguration extends Configuration {
 	@Valid
     @NotNull
-    private DataSourceFactory database = new DataSourceFactory();
+    private DataSourceFactory database = new DataSourceFactory();	
 	
 	@JsonProperty("database")
     public DataSourceFactory getDataSourceFactory() {
