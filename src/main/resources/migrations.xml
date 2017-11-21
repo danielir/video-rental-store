@@ -6,7 +6,7 @@
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
 	<changeSet id="1" author="divorra">
-	<createTable tableName="customers">
+		<createTable tableName="customers">
 			<column name="id" type="bigint" autoIncrement="true">
 				<constraints primaryKey="true" nullable="false" />
 			</column>
@@ -21,6 +21,30 @@
 			<column name="name" type="varchar(255)">
 				<constraints nullable="false" />
 			</column>
-		</createTable>		
-	</changeSet>		
+		</createTable>
+		<createTable tableName="rentals">
+			<column name="id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+			<column name="customer_id" type="bigint">
+				<constraints nullable="false" />
+			</column>
+			<column name="film_id" type="bigint">
+				<constraints nullable="false" />
+			</column>
+			<!-- 
+			<column name="creation_date" type="date">
+				<constraints nullable="false" />
+			</column>
+			<column name="days" type="int">
+				<constraints nullable="false" />
+			</column> -->
+		</createTable>
+		<addForeignKeyConstraint constraintName="fk_rental_customer_id"
+			referencedTableName="customers" baseColumnNames="customer_id"
+			baseTableName="rentals" referencedColumnNames="id" />
+		<addForeignKeyConstraint constraintName="fk_rental_film_id"
+			referencedTableName="films" baseColumnNames="film_id" baseTableName="rentals"
+			referencedColumnNames="id" />
+	</changeSet>
 </databaseChangeLog>
