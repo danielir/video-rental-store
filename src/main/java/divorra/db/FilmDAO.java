@@ -3,6 +3,8 @@ package divorra.db;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.criteria.CriteriaQuery;
+
 import org.hibernate.SessionFactory;
 
 import divorra.core.Film;
@@ -24,7 +26,7 @@ public class FilmDAO extends AbstractDAO<Film> {
 	
 	public Optional<Film> findById(Long id) {
         return Optional.ofNullable(get(id));
-    }
+    }	
 	
 	
 }

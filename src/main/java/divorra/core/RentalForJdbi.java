@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.validation.constraints.NotNull;
 
-public class Rental {
+public class RentalForJdbi {
 
     @NotNull
     @JsonProperty
@@ -19,11 +19,11 @@ public class Rental {
     private Integer film_id;
     
 
-    public Rental() {
+    public RentalForJdbi() {
         // Jackson deserialization
     }
 
-    public Rental(int id, int customer_id, int film_id) {
+    public RentalForJdbi(int id, int customer_id, int film_id) {
         this.id = id;
         this.customer_id = customer_id;
         this.film_id = film_id;
@@ -57,9 +57,9 @@ public class Rental {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Rental)) return false;
+        if (!(o instanceof RentalForJdbi)) return false;
 
-        Rental that = (Rental) o;
+        RentalForJdbi that = (RentalForJdbi) o;
 
         if (!getId().equals(that.getId())) return false;
         if (!getFilm_id().equals(that.getFilm_id())) return false;
