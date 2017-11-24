@@ -8,6 +8,8 @@ import javax.ws.rs.core.MediaType;
 
 import divorra.core.FilmRentRequest;
 import divorra.core.RentRequest;
+import divorra.core.finance.RentPriceCalculator;
+import divorra.db.FilmDAO;
 import io.dropwizard.hibernate.UnitOfWork;
 
 @Path("/rent")
@@ -15,13 +17,22 @@ import io.dropwizard.hibernate.UnitOfWork;
 @Consumes(MediaType.APPLICATION_JSON)
 public class RentResource {
 	
+	private final FilmDAO filmDAO;	
+	
+	public RentResource(FilmDAO filmDAO) {
+		this.filmDAO = filmDAO;
+	}
+	
 	@POST
 	@UnitOfWork
 	public int rent(RentRequest rentRequest) {
 		System.out.println("Rent request for customerId: " + rentRequest.getCustomerId());
 		
+		
+		RentPriceCalculator priceCalculator = new RentPriceCalculator(filmDAO);
+		
 		for (FilmRentRequest f : rentRequest.getFilmRentRequests()) {
-			System.out.println("RentResource.rent() FilmRentRequest received: " + f.getFilmId() + ", "+f.getDays());
+			System.out.println("RentResource.rent() FilmRentRequest received: " + f.getFilmId() + ", "+f.getDays());			
 		}
 		/*
 		for (String s : rentRequest.getFilmRentRequests()) {

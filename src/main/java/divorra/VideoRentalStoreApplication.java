@@ -79,7 +79,7 @@ public class VideoRentalStoreApplication extends Application<VideoRentalStoreCon
     	
     	environment.jersey().register(new CustomerResource(customerDAO));
     	environment.jersey().register(new FilmResource(filmDAO));
-    	environment.jersey().register(new RentResource());
+    	environment.jersey().register(new RentResource(filmDAO));
     	
     	final DBIFactory factory = new DBIFactory();
         final DBI jdbi = factory.build(environment, configuration.getDataSourceFactory(), "h2");
