@@ -23,7 +23,8 @@ public class RentPriceCalculator {
 			Optional<Film> film = filmDAO.findById(filmId);
 			if (film.isPresent()) {
 				// todo add gettype
-				//film.get().
+				String type = film.get().getType();
+				System.out.println("RentPriceCalculator.calculatePrice() FOUND film of type:"+type);
 			}
 			
 		}

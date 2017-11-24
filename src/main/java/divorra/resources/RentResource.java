@@ -30,14 +30,14 @@ public class RentResource {
 		
 		
 		RentPriceCalculator priceCalculator = new RentPriceCalculator(filmDAO);
+		priceCalculator.calculatePrice(rentRequest);
 		
 		for (FilmRentRequest f : rentRequest.getFilmRentRequests()) {
 			System.out.println("RentResource.rent() FilmRentRequest received: " + f.getFilmId() + ", "+f.getDays());			
 		}
-		/*
-		for (String s : rentRequest.getFilmRentRequests()) {
-			System.out.println("RentResource.rent() string received: " + s);
-		}*/
+		
+		// create rent on database
+		
 		return 0;
 	}
 
