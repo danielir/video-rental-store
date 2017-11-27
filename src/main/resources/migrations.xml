@@ -25,6 +25,20 @@
 				<constraints nullable="false" />
 			</column>
 		</createTable>
+		<createTable tableName="prices">
+			<column name="id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>			
+			<column name="filmType" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="price" type="currency">
+				<constraints nullable="false" />
+			</column>
+			<column name="days" type="integer">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
 		<createTable tableName="rentals">
 			<column name="id" type="bigint" autoIncrement="true">
 				<constraints primaryKey="true" nullable="false" />

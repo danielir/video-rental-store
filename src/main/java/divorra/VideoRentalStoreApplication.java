@@ -2,12 +2,13 @@ package divorra;
 
 import org.skife.jdbi.v2.DBI;
 
-import divorra.core.RentRequest;
 import divorra.db.CustomerDAO;
 import divorra.db.FilmDAO;
 import divorra.db.MyDAO;
+import divorra.db.PriceDAO;
 import divorra.resources.CustomerResource;
 import divorra.resources.FilmResource;
+import divorra.resources.PriceResource;
 import divorra.resources.RentResource;
 import divorra.resources.RentalResourceUsingJdbi;
 import io.dropwizard.Application;
@@ -75,11 +76,13 @@ public class VideoRentalStoreApplication extends Application<VideoRentalStoreCon
     public void run(final VideoRentalStoreConfiguration configuration,
                     final Environment environment) {
     	final CustomerDAO customerDAO = new CustomerDAO(hibernateBundle.getSessionFactory());
-    	final FilmDAO filmDAO = new FilmDAO(hibernateBundle.getSessionFactory());     
+    	final FilmDAO filmDAO = new FilmDAO(hibernateBundle.getSessionFactory());
+    	final PriceDAO priceDAO = new PriceDAO(hibernateBundle.getSessionFactory());
     	
     	environment.jersey().register(new CustomerResource(customerDAO));
     	environment.jersey().register(new FilmResource(filmDAO));
-    	environment.jersey().register(new RentResource(filmDAO));
+    	environment.jersey().register(new RentResource(filmDAO, priceDAO));
+    	environment.jersey().register(new PriceResource(priceDAO));
     	
     	final DBIFactory factory = new DBIFactory();
         final DBI jdbi = factory.build(environment, configuration.getDataSourceFactory(), "h2");

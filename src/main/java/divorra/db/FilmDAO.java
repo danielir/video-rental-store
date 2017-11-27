@@ -3,8 +3,6 @@ package divorra.db;
 import java.util.List;
 import java.util.Optional;
 
-import javax.persistence.criteria.CriteriaQuery;
-
 import org.hibernate.SessionFactory;
 
 import divorra.core.Film;
