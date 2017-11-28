@@ -27,13 +27,17 @@ public class Customer {
 	@Column(name = "name", nullable = false)
 	private String name;
 	
+	@Column(name = "points", nullable = false)
+	private int points;
+	
 	public Customer() {
 		
 	}
 	
-	public Customer(long id, String name) {
+	public Customer(long id, String name, int points) {
 		this.id = id;
 		this.name = name;
+		this.points = points;
 	}
 
 	public long getId() {
@@ -70,6 +74,14 @@ public class Customer {
 	@Override
 	public int hashCode() {
 		return Objects.hash(id, name);
+	}
+
+	public int getPoints() {
+		return points;
+	}
+
+	public void setPoints(int points) {
+		this.points = points;
 	}
 
 	

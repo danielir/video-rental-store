@@ -6,11 +6,13 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import divorra.core.Customer;
 import divorra.core.FilmRentRequest;
 import divorra.core.RentRequest;
 import divorra.core.RentResponse;
 import divorra.core.Rental;
 import divorra.core.finance.RentPriceCalculator;
+import divorra.db.CustomerDAO;
 import divorra.db.FilmDAO;
 import divorra.db.PriceDAO;
 import divorra.db.RentalDAO;
@@ -24,11 +26,13 @@ public class RentResource {
 	private final FilmDAO filmDAO;	
 	private final PriceDAO priceDAO;
 	private final RentalDAO rentalDAO;
+	private final CustomerDAO customerDAO;
 	
-	public RentResource(FilmDAO filmDAO, PriceDAO priceDAO, RentalDAO rentalDAO) {
+	public RentResource(FilmDAO filmDAO, PriceDAO priceDAO, RentalDAO rentalDAO, CustomerDAO customerDAO) {
 		this.filmDAO = filmDAO;
 		this.priceDAO = priceDAO;
 		this.rentalDAO = rentalDAO;
+		this.customerDAO = customerDAO;
 	}
 	
 	@POST
@@ -41,11 +45,16 @@ public class RentResource {
 		double price = priceCalculator.calculatePrice(rentRequest);
 		
 		for (FilmRentRequest f : rentRequest.getFilmRentRequests()) {
+			
 			System.out.println("RentResource.rent() FilmRentRequest received: " + f.getFilmId() + ", "+f.getDays());
 			Rental rental = new Rental();
-			rental.setCustomer_id(rentRequest.getCustomerId());
+			long customerId = rentRequest.getCustomerId();
+			rental.setCustomer_id(customerId);
 			rental.setFilm_id(f.getFilmId());
-			this.rentalDAO.create(rental);
+			this.rentalDAO.create(rental);	
+			Customer c = this.customerDAO.findById(customerId).get();
+			c.setPoints(c.getPoints() + 1);
+			
 		}
 		
 		// create rent on database

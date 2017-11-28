@@ -79,7 +79,7 @@ public class VideoRentalStoreApplication extends Application<VideoRentalStoreCon
     	
     	environment.jersey().register(new CustomerResource(customerDAO));
     	environment.jersey().register(new FilmResource(filmDAO));
-    	environment.jersey().register(new RentResource(filmDAO, priceDAO, rentalDAO));
+    	environment.jersey().register(new RentResource(filmDAO, priceDAO, rentalDAO, customerDAO));
     	environment.jersey().register(new PriceResource(priceDAO));    	
         environment.jersey().register(new RentalResource(rentalDAO));
         
