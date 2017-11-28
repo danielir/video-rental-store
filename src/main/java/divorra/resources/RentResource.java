@@ -8,9 +8,12 @@ import javax.ws.rs.core.MediaType;
 
 import divorra.core.FilmRentRequest;
 import divorra.core.RentRequest;
+import divorra.core.RentResponse;
+import divorra.core.Rental;
 import divorra.core.finance.RentPriceCalculator;
 import divorra.db.FilmDAO;
 import divorra.db.PriceDAO;
+import divorra.db.RentalDAO;
 import io.dropwizard.hibernate.UnitOfWork;
 
 @Path("/rent")
@@ -20,28 +23,34 @@ public class RentResource {
 	
 	private final FilmDAO filmDAO;	
 	private final PriceDAO priceDAO;
+	private final RentalDAO rentalDAO;
 	
-	public RentResource(FilmDAO filmDAO, PriceDAO priceDAO) {
+	public RentResource(FilmDAO filmDAO, PriceDAO priceDAO, RentalDAO rentalDAO) {
 		this.filmDAO = filmDAO;
 		this.priceDAO = priceDAO;
+		this.rentalDAO = rentalDAO;
 	}
 	
 	@POST
 	@UnitOfWork
-	public int rent(RentRequest rentRequest) {
+	public RentResponse rent(RentRequest rentRequest) {
 		System.out.println("Rent request for customerId: " + rentRequest.getCustomerId());
 		
 		
 		RentPriceCalculator priceCalculator = new RentPriceCalculator(filmDAO, priceDAO);
-		priceCalculator.calculatePrice(rentRequest);
+		double price = priceCalculator.calculatePrice(rentRequest);
 		
 		for (FilmRentRequest f : rentRequest.getFilmRentRequests()) {
-			System.out.println("RentResource.rent() FilmRentRequest received: " + f.getFilmId() + ", "+f.getDays());			
+			System.out.println("RentResource.rent() FilmRentRequest received: " + f.getFilmId() + ", "+f.getDays());
+			Rental rental = new Rental();
+			rental.setCustomer_id(rentRequest.getCustomerId());
+			rental.setFilm_id(f.getFilmId());
+			this.rentalDAO.create(rental);
 		}
 		
 		// create rent on database
 		
-		return 0;
+		return new RentResponse(price);
 	}
 
 }

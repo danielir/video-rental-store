@@ -9,40 +9,38 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import divorra.core.Customer;
-import divorra.core.Film;
-import divorra.core.RentalForJdbi;
-import divorra.db.MyDAO;
+import divorra.core.Rental;
+import divorra.db.RentalDAO;
 import io.dropwizard.hibernate.UnitOfWork;
 import io.dropwizard.jersey.params.LongParam;
 
 @Path("/rentals")
 @Produces(MediaType.APPLICATION_JSON)
-public class RentalResourceUsingJdbi {
+public class RentalResource {
 	
-	private final MyDAO myDAO;
+	private final RentalDAO myDAO;
 	
-	public RentalResourceUsingJdbi(MyDAO myDAO) {
+	public RentalResource(RentalDAO myDAO) {
 		this.myDAO = myDAO;
 	}
 	
 	@POST
 	@UnitOfWork
-	public int rent(RentalForJdbi rental) {
-		return myDAO.insert(rental);
+	public Rental rent(Rental rental) {
+		return myDAO.create(rental);
 	}
 	
 	
 	@GET
 	@UnitOfWork
-	public List<RentalForJdbi> listRentals() {
+	public List<Rental> listRentals() {
 		return myDAO.findAll();
 	}
 	
 	@Path("/customer/{customerId}")
 	@GET
 	@UnitOfWork
-	public List<RentalForJdbi> listRentalsByUser(@PathParam("customerId") LongParam customerId) {
+	public List<Rental> listRentalsByUser(@PathParam("customerId") LongParam customerId) {
 		return myDAO.findRentalsByCustomerId(customerId.get());
 	}
 	
